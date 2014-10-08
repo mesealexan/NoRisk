@@ -9,7 +9,7 @@ var projector = new THREE.Projector(),
     mouse = { x: 0, y: 0, z: 1 },
     ray = new THREE.Raycaster( new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0) );
 
-function init()
+function initWorld()
     {
     scene = new THREE.Scene();
 
