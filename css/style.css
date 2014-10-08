@@ -61,10 +61,10 @@ body {
         font-size: 1em;
 }
 table, th, td {
-    border: 1px solid;
+    border: 0px solid;
     border-collapse: collapse;
 }
-#table {
+#table1 {
 	position: relative;
     width: 99.5%;
     height: 200px;
@@ -84,5 +84,5 @@ table, th, td {
 }
 #plName{
 	position: relative;
-	width: 100%;
+	width: 33.33%;
 }

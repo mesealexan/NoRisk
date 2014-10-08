@@ -26,9 +26,14 @@
           Color: <input type="color" name='playerCol' id="plc">
       </form>
 
-      <div id="table">
-        <div id="plName" value="Player Name"> Player Name.............................Player Color..................................Status<hr>
-        </div>
+      <div id="table1">
+      <table style="width:100%">
+          <tr>
+            <th>Player Name</th>
+            <th>Player Color</th> 
+            <th>Status</th>
+          </tr>
+      </table>
       </div>
 
       <input type="button" value="READY!" onclick="loginConnect()" id="readyButton"> 
@@ -53,13 +58,40 @@
     
     <script type="text/javascript">
 
-for (var i = 0, n = 4; i < n; i++)
-{
-  var divTag = document.createElement("div");
-  divTag.id = "div" + i;
-  divTag.style.backgroundColor = 'green';
-  divTag.innerHTML ="Player " + i + "............................." + "Player Color" + ".................................." + "Not Ready";
-  document.getElementById("plName").appendChild(divTag);
+injectPlayer("Vlad", "#123456", "Ready");
+injectPlayer("Alex", "#345123", "Ready");
+
+function injectPlayer(name, color, status){
+  var color = Math.floor(Math.random()*16777215).toString(16)
+  var main = document.getElementById("table1")
+
+  var tbl=document.createElement('table');
+    tbl.setAttribute('border','1');
+    tbl.style.width='100%';
+  var tbdy=document.createElement('tbody');
+
+  var tr=document.createElement('tr')
+
+  var tdName=document.createElement('td');
+    tdName.innerHTML =name;
+    tdName.style.width='40%';
+
+  var tdColor=document.createElement('td');
+    tdColor.innerHTML ="";
+    tdColor.style.background = "#" + color;
+    tdColor.style.width='27%';
+
+  var tdStatus=document.createElement('td');
+    tdStatus.innerHTML =status;
+    tdStatus.style.textAlign="center"
+
+  tr.appendChild(tdName);
+  tr.appendChild(tdColor);
+  tr.appendChild(tdStatus);
+
+  tbdy.appendChild(tr);
+  tbl.appendChild(tbdy);
+  main.appendChild(tbl)
 }
 
 $(function() 
