@@ -1,4 +1,6 @@
 var thisClientId;
+var Player = require("./Player.js")
+var __player;
 
 function loginConnect()
 {
@@ -6,6 +8,8 @@ function loginConnect()
 
 	socket.on('connected', function(data){
 		console.log('conected to server with uniqueID: '+data.uniqueID);
+		var thisPlayer = new Player(data.uniqueID);
+		__player = thisPlayer;
 		thisClientId = data.uniqueID;
 		/*
 		setInterval(function(){
@@ -32,14 +36,16 @@ function loginConnect()
 			userN: document.getElementById("pln").value, 
 			userC:document.getElementById("plc").value
 		}
-		socket.emit('userDetails', paket)
+		socket.emit('userDetails', paket);
 	});
 
 
 
 	socket.on('allPlayerConnections', function (data){
+		var connectedPlayer = new Player();
+		connectedPlayer = data.playerCon;
 		console.log('Number of connections received:'+data.totalConnected);
-		console.log('connected player: '+data.playerCon.getName());
+		console.log('connected player: '+connectedPlayer.userName);
 		document.getElementById("conUsers").value = data.totalConnected;
 	});
 

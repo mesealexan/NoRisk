@@ -1,6 +1,7 @@
 var http = require("http");
 var url = require("url");
 var io = require("socket.io");
+var Player = require("./Player.js")
 var counts = 0;
 var clients = [];
 var clientSockets = [];
@@ -49,7 +50,7 @@ function start(route, handle) {
 		clientSockets.push(socket);
 		totalConnected++;
 		emitToAll(counts);
-		var plr = new Player(Math.floor((Math.random()*1000)+1));
+		var plr = new Player( Math.floor((Math.random()*1000)+1) );
 		/*
 		var new_player = {
 			id: Math.floor((Math.random()*1000)+1),
@@ -70,15 +71,20 @@ function start(route, handle) {
 		*/
 		clients.push(plr);
 		clientsInRoom.push(plr);
-		socket.emit('connected', {'uniqueID':plr.id});
-		console.log('Client connected...  id: '+plr.id);
+		socket.emit('connected', {'uniqueID':plr.userId});
+		console.log('Client connected...  id: '+plr.userId);
 		//send data to client
 		
 		//setInterval(function(){
 		//socket.broadcast.emit('allPlayerConnections', totalConnected);  emits to all but this socket
-
-		iol.sockets.emit('allPlayerConnections', totalConnected);
+		/*
+		var pak = {
+				totalConnected: totalConnected,
+				playerCon: plr
+		};
+		iol.sockets.emit('allPlayerConnections', pak);
 		//}, 500);
+		*/
 		
 		socket.on('disconnect', function () {
 			console.log('Client disconnected!');
@@ -86,10 +92,14 @@ function start(route, handle) {
 			totalConnected--;
 			//socket.broadcast.emit('count', {'count':counts});
 			//socket.broadcast.emit('remove', {'removeID':new_player.id});
-			socket.broadcast.emit('allPlayerConnections', totalConnected);
+			pak = {
+				totalConnected: totalConnected,
+				playerCon: plr
+			};
+			socket.broadcast.emit('allPlayerConnections', pak);
 			var dc = clientSockets.indexOf(socket);
-			var re = clients.indexOf(new_player);
-			var cr = clientsInRoom.indexOf(new_player);
+			var re = clients.indexOf(plr);
+			var cr = clientsInRoom.indexOf(plr);
 			clients.splice(re,1);
 			clientsInRoom.splice(cr,1)
 			delete clientSockets[dc];
@@ -101,8 +111,9 @@ function start(route, handle) {
 			var pl = clients.indexOf(plr);
 			plr.setName(data.userN);
 			plr.setColor(data.userC);
+			console.log('username arrived: '+plr.getName())
 
-			var pak = {
+			pak = {
 				totalConnected: totalConnected,
 				playerCon: plr
 			};
