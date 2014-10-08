@@ -8,6 +8,12 @@ function loginConnect()
 
 	socket.on('connected', function(data){
 		console.log('conected to server with uniqueID: '+data.uniqueID);
+		var clienticonectati = data.clients;
+		for (var i=0;i<clienticonectati.length;i++)
+		{
+			if (clienticonectati[i].userName)
+				injectPlayer(clienticonectati[i].userName, clienticonectati[i].userColor, 'todo status');
+		}
 		var thisPlayer = new Player(data.uniqueID);
 		__player = thisPlayer;
 		thisClientId = data.uniqueID;
@@ -45,8 +51,9 @@ function loginConnect()
 		var connectedPlayer = new Player();
 		connectedPlayer = data.playerCon;
 		console.log('Number of connections received:'+data.totalConnected);
-		console.log('connected player: '+connectedPlayer.userName);
-		document.getElementById("conUsers").value = data.totalConnected;
+		console.log('connected player: '+connectedPlayer.userColor);
+		//document.getElementById("conUsers").value = data.totalConnected;
+		injectPlayer(connectedPlayer.userName, connectedPlayer.userColor, 'Not Ready')
 	});
 
 }
