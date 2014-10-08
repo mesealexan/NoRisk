@@ -58,11 +58,12 @@
     
     <script type="text/javascript">
 
-injectPlayer("Vlad", "#123456", "Ready");
-injectPlayer("Alex", "#345123", "Ready");
+//injectPlayer("Vlad", "#123456", "Ready");
+//injectPlayer("Alex", "#345123", "Ready");
 
 function injectPlayer(name, color, status){
-  var color = Math.floor(Math.random()*16777215).toString(16)
+  console.log('injecting player: '+name)
+ // var color = Math.floor(Math.random()*16777215).toString(16)
   var main = document.getElementById("table1")
 
   var tbl=document.createElement('table');
@@ -78,7 +79,7 @@ function injectPlayer(name, color, status){
 
   var tdColor=document.createElement('td');
     tdColor.innerHTML ="";
-    tdColor.style.background = "#" + color;
+    tdColor.style.background = color;
     tdColor.style.width='27%';
 
   var tdStatus=document.createElement('td');
