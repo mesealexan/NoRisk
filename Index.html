@@ -15,11 +15,13 @@
     <div id="ThreeJS" style="position: absolute; left:0px; top:0px" ></div>
     <div id="login">
         <form > <br>
-          Name: <input type="text" name="name">
-          <input type="button" value="Submit" onclick="loginConnect()">
+          Name: <input type="text" name="name">          
+          <br>
+          Color: <input type="color" name='playerCol'>
+          <input type="button" value="Submit" onclick="loginConnect()"> 
         </form><br>
         <div id='users' >
-          Users in lobby: <input type="text" id="conUsers" value="0">
+          Users in lobby: <input type="text" id="conUsers" value="0" readonly style="text-align:right;background-color: #aaaaaa;">
         </div>
 
     </div>

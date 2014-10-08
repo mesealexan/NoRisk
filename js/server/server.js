@@ -81,8 +81,9 @@ function start(route, handle) {
 			console.log('Client disconnected!');
 			counts--;
 			totalConnected--;
-			socket.broadcast.emit('count', {'count':counts});
-			socket.broadcast.emit('remove', {'removeID':new_player.id});
+			//socket.broadcast.emit('count', {'count':counts});
+			//socket.broadcast.emit('remove', {'removeID':new_player.id});
+			socket.broadcast.emit('allPlayerConnections', totalConnected);
 			var dc = clientSockets.indexOf(socket);
 			var re = clients.indexOf(new_player);
 			var cr = clientsInRoom.indexOf(new_player);
