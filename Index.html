@@ -11,56 +11,60 @@
     <script src="js/client.js"></script>
     <script src="js/Player.js"></script>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+    <link rel=stylesheet href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
 
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
-<link rel=stylesheet href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
 
-<div id="infoBox" title="No Risk No Fun MF">
-      <div id="login">
-         <form > <br>
-          Name: <input type="text" name="name" id="pln">          
-          
+
+
+
+  <div id="infoBox" title="No Risk No Fun MF">
+
+      <form > <br>
+          Name: <input type="text" name="name" id="pln">             
           Color: <input type="color" name='playerCol' id="plc">
-          
-        </form><br>
-        <div id='users' >
-          Users in lobby: <input type="text" id="conUsers" value="0" readonly style="text-align:right;background-color: #aaaaaa;">
+      </form>
+
+      <div id="table">
+        <div id="plName" value="Player Name"> Player Name.............................Player Color..................................Status<hr>
         </div>
-                <table style="width:100%">
-          <tr>
-            <td>Player</td>
-            <td>Color</td> 
-            <td>Status</td>
-          </tr>
-          <tr>
-            <td>Eve</td>
-            <td>Jackson</td> 
-            <td>94</td>
-          </tr>
-                    <tr>
-            <td>Jill</td>
-            <td>Smith</td> 
-            <td>50</td>
-          </tr>
-          <tr>
-            <td>Eve</td>
-            <td>Jackson</td> 
-            <td>94</td>
-          </tr>
-        </table>
-        <input type="button" value="Submit" onclick="loginConnect()"> 
       </div>
-</div>
+
+      <input type="button" value="READY!" onclick="loginConnect()" id="readyButton"> 
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   </head>
   <body onload="initWorld();">
     <div id="ThreeJS" style="position: absolute; left:0px; top:0px" ></div>
     
     <script type="text/javascript">
+
+for (var i = 0, n = 4; i < n; i++)
+{
+  var divTag = document.createElement("div");
+  divTag.id = "div" + i;
+  divTag.style.backgroundColor = 'green';
+  divTag.innerHTML ="Player " + i + "............................." + "Player Color" + ".................................." + "Not Ready";
+  document.getElementById("plName").appendChild(divTag);
+}
+
 $(function() 
 {
-   $("#infoBox").css( {"background":"rgba(255,255,255,0.5)"}).dialog({ autoOpen: true, maxWidth:600, maxHeight: 400, minWidth:450, minHeight: 300, width: 600,  height: 400, show: { effect: 'fade', duration: 500 }, hide: { effect: 'fade', duration: 500 }  });
+   $("#infoBox").css( {"background":"rgba(255,255,255,1)"}).dialog({ autoOpen: true,resizable: false, width: 600,  height: 350, show: { effect: 'fade', duration: 500 }, hide: { effect: 'fade', duration: 500 }  });
   
 });
     function login(){
