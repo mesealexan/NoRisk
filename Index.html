@@ -24,9 +24,10 @@
       <form > <br>
           Name: <input type="text" name="name" id="pln">             
           Color: <input type="color" name='playerCol' id="plc">
+          <input type="button" value="Submit" onclick="enableReady()" >
       </form>
 
-      <div id="table1">
+      <div id="tableMain">
       <table style="width:100%">
           <tr>
             <th>Player Name</th>
@@ -36,20 +37,8 @@
       </table>
       </div>
 
-      <input type="button" value="READY!" onclick="loginConnect()" id="readyButton"> 
+      <input type="button" value="READY!" id="readyButton" disabled> 
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   </head>
@@ -57,20 +46,35 @@
     <div id="ThreeJS" style="position: absolute; left:0px; top:0px" ></div>
     
     <script type="text/javascript">
-
+var counter = 0;
 injectPlayer("Vlad", "#123456", "Ready");
-injectPlayer("Alex", "#345123", "Ready");
+injectPlayer("Alex", "#345123", "Not Ready");
+
+function enableReady(){
+  document.getElementById("readyButton").disabled = false;
+  loginConnect();
+}
+
+
+function removePlayer(playerName){
+var div = document.getElementById(playerName);
+if (div) 
+    div.parentNode.removeChild(div);
+
+}
 
 function injectPlayer(name, color, status){
-  var color = Math.floor(Math.random()*16777215).toString(16)
-  var main = document.getElementById("table1")
+
+  var main = document.getElementById("tableMain")
 
   var tbl=document.createElement('table');
+  tbl.id = name.toString();
+  console.log( tbl.id )
     tbl.setAttribute('border','1');
     tbl.style.width='100%';
   var tbdy=document.createElement('tbody');
 
-  var tr=document.createElement('tr')
+  var tr=document.createElement('tr');
 
   var tdName=document.createElement('td');
     tdName.innerHTML =name;
@@ -78,7 +82,7 @@ function injectPlayer(name, color, status){
 
   var tdColor=document.createElement('td');
     tdColor.innerHTML ="";
-    tdColor.style.background = "#" + color;
+    tdColor.style.background = color;
     tdColor.style.width='27%';
 
   var tdStatus=document.createElement('td');
@@ -91,7 +95,8 @@ function injectPlayer(name, color, status){
 
   tbdy.appendChild(tr);
   tbl.appendChild(tbdy);
-  main.appendChild(tbl)
+  main.appendChild(tbl);
+  counter++
 }
 
 $(function() 

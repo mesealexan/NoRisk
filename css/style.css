@@ -64,7 +64,7 @@ table, th, td {
     border: 0px solid;
     border-collapse: collapse;
 }
-#table1 {
+#tableMain {
 	position: relative;
     width: 99.5%;
     height: 200px;
