@@ -14,8 +14,8 @@ function loginConnect()
 			if (clienticonectati[i].userName)
 				injectPlayer(clienticonectati[i].userName, clienticonectati[i].userColor, 'todo status');
 		}
-		var thisPlayer = new Player(data.uniqueID);
-		__player = thisPlayer;
+		//var thisPlayer = new Player(data.uniqueID);
+		//__player = thisPlayer;
 		thisClientId = data.uniqueID;
 		/*
 		setInterval(function(){
