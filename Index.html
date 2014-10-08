@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>title</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="vendor/three.min.js"></script>
+    <script src="vendor/DDSLoader.js"></script>
+    <script src="vendor/OrbitControls.js"></script>
+    <script src="js/functions.js"></script>
+    <script src="js/client.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body onload="initWorld();">
+    <div id="ThreeJS" style="position: absolute; left:0px; top:0px" ></div>
+    <div id="login">
+        <form > <br>
+          Name: <input type="text" name="name">
+          <input type="button" value="Submit" onclick="loginConnect()">
+        </form><br>
+        <div id='users' >
+          Users in lobby: <input type="text" id="conUsers" value="0">
+        </div>
+
+    </div>
+    <script type="text/javascript">
+
+    function login(){
+        document.getElementById("login").style.display = 'none';
+    }
+
+    </script>
+  </body>
+</html>
+
+

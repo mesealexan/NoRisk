@@ -1,0 +1,29 @@
+{
+  "name": "NoRisk",
+  "version": "0.0.0",
+  "description": "NoRisk game.",
+  "main": "begin.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mesealexan/NoRisk.git"
+  },
+  "keywords": [
+    "norisk",
+    "game"
+  ],
+  "author": "noi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mesealexan/NoRisk/issues"
+  },
+  "dependencies": {
+    "express": "^4.9.5",
+    "formidable": "^1.0.15",
+    "logfmt": "^1.2.0",
+    "socket.io": "^1.1.0",
+    "three": "^0.66.4"
+  }
+}
