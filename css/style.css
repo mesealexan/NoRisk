@@ -13,11 +13,16 @@ body {
 
 #login {
 	display: block;
-    position: fixed;
-    background-color: #aaaaaa;
-    width: 300px;
-    height: 200px;
-    left: 50%;
-    margin-left: -150px;
-    top: 20%;
+	text-align: left;
+    position: relative;
     }
+.ui-dialog-titlebar-close {
+  visibility: hidden;
+}
+.ui-dialog {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: .2em;
+	outline: 0;
+}
