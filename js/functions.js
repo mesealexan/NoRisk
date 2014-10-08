@@ -1,10 +1,15 @@
 var container, scene, camera, renderer, controls, stats;
 var mesh;
 var jsonLoader = new THREE.JSONLoader(); 
-var mesh, sphere, geometry, lod;
+var loader = new THREE.DDSLoader();
+var mesh, sphere, geometry, lod, collector;
 var DisplacementTexture;
+var projector = new THREE.Projector(), 
+    mouse_vector = new THREE.Vector3(),
+    mouse = { x: 0, y: 0, z: 1 },
+    ray = new THREE.Raycaster( new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0) );
 
-function initWorld()
+function init()
     {
     scene = new THREE.Scene();
 
@@ -15,7 +20,7 @@ function initWorld()
     camera.position.set(-200,200,200); 
     camera.lookAt(scene.position);   
     scene.add(camera); 
-
+    collector = new THREE.Object3D();
     // RENDERER
     if (window.WebGLRenderingContext) 
         renderer = new THREE.WebGLRenderer({antialias:true, alpha: true });
@@ -24,6 +29,8 @@ function initWorld()
 
     renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT); 
     renderer.setClearColorHex( 0x000000, 1 );
+
+    renderer.domElement.addEventListener( 'mousemove', onMouseMove, false );
     container = document.getElementById( 'ThreeJS' ); 
     container.appendChild( renderer.domElement ); 
 
@@ -34,14 +41,12 @@ function initWorld()
     var ambient = 0x111111, diffuse = 0xbbbbbb, specular = 0x060606, shininess = 60;
     var shader = THREE.ShaderLib[ "normalmap" ];
 
-    var loader = new THREE.DDSLoader();
+    jsonLoader.load("art/africa.js", loadRayObjects);
 
-
+    scene.add(collector);
     DisplacementTexture = new THREE.ImageUtils.loadCompressedTexture( 'art/Earth_Disp.dds' );
     var DiffuseTexture = new THREE.ImageUtils.loadCompressedTexture("art/EARTH.dds");
     var NormalTexture = new THREE.ImageUtils.loadCompressedTexture("art/earth_normal.dds")
-
-console.log(DisplacementTexture)
 
     var uniforms = THREE.UniformsUtils.clone( shader.uniforms );
     uniforms[ "enableDisplacement" ].value = true;
@@ -58,7 +63,7 @@ console.log(DisplacementTexture)
 
    // var material = new THREE.MeshPhongMaterial( {map: myTexture} );
 
-    geometry = new THREE.SphereGeometry(150, 60, 60);
+    //geometry = new THREE.SphereGeometry(150, 60, 60);
     var geometry = [
 
         [ new THREE.SphereGeometry(150, 150, 150), 200 ],
@@ -119,9 +124,41 @@ function animate()
 
 function update(){
 }
-function callBackFunction( geometry, materials ) 
+function loadRayObjects( geometry, materials ) 
     {   
     var material = new THREE.MeshFaceMaterial( materials ); 
+    material.materials[0].opacity = 0;
+    material.materials[0].transparent= true;
+    geometry.computeFaceNormals();
+    geometry.computeVertexNormals();
     mesh = new THREE.Mesh( geometry, material); 
-    scene.add( mesh ); 
+
+    collector.add( mesh ); 
     }  
+
+
+
+
+function onMouseMove( event_info ) 
+{
+    event_info.preventDefault();  
+    mouse.x = ( event_info.clientX / (window.innerWidth) ) * 2 - 1;
+    mouse.y = - ( event_info.clientY / window.innerHeight ) * 2 + 1;   
+    mouse_vector.set( mouse.x, mouse.y, mouse.z );
+    projector.unprojectVector( mouse_vector, camera );
+    var direction = mouse_vector.sub( camera.position ).normalize();
+    ray.set( camera.position, direction );
+    intersects = ray.intersectObjects(collector.children, true );
+    if(intersects.length>0)
+        {   
+            var intersected = intersects[0].object;
+            intersected.material.materials[0].opacity = 0.75;
+        }
+    else
+    {
+        for(i=0; i<collector.children.length;i++)
+        {
+            collector.children[i].material.materials[0].opacity = 0;
+        }
+    }
+}
