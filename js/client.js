@@ -27,11 +27,20 @@ function loginConnect()
 			socket.emit('position', paket);
 		}, 500);
 		*/
+
+		var paket = {
+			userN: document.getElementById("pln").value, 
+			userC:document.getElementById("plc").value
+		}
+		socket.emit('userDetails', paket)
 	});
 
+
+
 	socket.on('allPlayerConnections', function (data){
-		console.log('Number of connections received:'+data)
-		document.getElementById("conUsers").value = data;
+		console.log('Number of connections received:'+data.totalConnected);
+		console.log('connected player: '+data.playerCon.getName());
+		document.getElementById("conUsers").value = data.totalConnected;
 	});
 
 }

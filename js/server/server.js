@@ -49,6 +49,8 @@ function start(route, handle) {
 		clientSockets.push(socket);
 		totalConnected++;
 		emitToAll(counts);
+		var plr = new Player(Math.floor((Math.random()*1000)+1));
+		/*
 		var new_player = {
 			id: Math.floor((Math.random()*1000)+1),
 			x:4361,
@@ -65,10 +67,11 @@ function start(route, handle) {
 			angle:0,
 			//socket:socket;
 			}
-		clients.push(new_player);
-		clientsInRoom.push(new_player);
-		socket.emit('connected', {'uniqueID':new_player.id});
-		console.log('Client connected...  id: '+new_player.id);
+		*/
+		clients.push(plr);
+		clientsInRoom.push(plr);
+		socket.emit('connected', {'uniqueID':plr.id});
+		console.log('Client connected...  id: '+plr.id);
 		//send data to client
 		
 		//setInterval(function(){
@@ -93,6 +96,18 @@ function start(route, handle) {
 			clientSockets.splice(dc,1);
 		});
 		
+
+		socket.on('userDetails', function (data){
+			var pl = clients.indexOf(plr);
+			plr.setName(data.userN);
+			plr.setColor(data.userC);
+
+			var pak = {
+				totalConnected: totalConnected,
+				playerCon: plr
+			};
+			iol.sockets.emit('allPlayerConnections', pak);
+		});
 		/*
 		socket.on('position', function (data){
 			var pl = clients.indexOf(new_player);
