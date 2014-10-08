@@ -71,7 +71,7 @@ function start(route, handle) {
 		*/
 		clients.push(plr);
 		clientsInRoom.push(plr);
-		socket.emit('connected', {'uniqueID':plr.userId, clients:clients});
+		socket.emit('connected', {'uniqueID':plr.userId, 'clients':clients});
 		console.log('Client connected...  id: '+plr.userId);
 		//send data to client
 		
