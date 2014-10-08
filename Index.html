@@ -46,6 +46,7 @@
     <div id="ThreeJS" style="position: absolute; left:0px; top:0px" ></div>
     
     <script type="text/javascript">
+<<<<<<< HEAD
 var counter = 0;
 injectPlayer("Vlad", "#123456", "Ready");
 injectPlayer("Alex", "#345123", "Not Ready");
@@ -66,6 +67,16 @@ if (div)
 function injectPlayer(name, color, status){
 
   var main = document.getElementById("tableMain")
+=======
+
+//injectPlayer("Vlad", "#123456", "Ready");
+//injectPlayer("Alex", "#345123", "Ready");
+
+function injectPlayer(name, color, status){
+  console.log('injecting player: '+name)
+ // var color = Math.floor(Math.random()*16777215).toString(16)
+  var main = document.getElementById("table1")
+>>>>>>> origin/master
 
   var tbl=document.createElement('table');
   tbl.id = name.toString();
