@@ -30,7 +30,7 @@ function initWorld()
         renderer = new THREE.CanvasRenderer({antialias:true, alpha: true });
 
     renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT); 
-    renderer.setClearColorHex( 0x000000, 1 );
+    //renderer.setClearColorHex( 0x000000, 1 );
 
     renderer.domElement.addEventListener( 'mousemove', onMouseMove, false );
     container = document.getElementById( 'ThreeJS' ); 
@@ -40,7 +40,7 @@ function initWorld()
     controls.target.set(0,0,0);
     controls.noPan = true;
     controls.minDistance = 500;
-    controls.maxDistance = 900;
+    controls.maxDistance = 1160;
     //controls.noZoom = true;
     controls.noKeys = true;
     controls.rotateSpeed = 0.3;
@@ -110,7 +110,7 @@ function initWorld()
     cameraLight = new THREE.PointLight( 0xfffff3, 1.16, 5900 );
     cameraLight.position.set( camera.position );
     scene.add( cameraLight );
-
+    scene.fog = new THREE.Fog(0x111111, 600, 1160);
     animate();
 
     }
