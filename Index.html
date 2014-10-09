@@ -6,10 +6,10 @@
     <link rel="stylesheet" href="css/style.css">
     <script src="vendor/three.min.js"></script>
     <script src="vendor/DDSLoader.js"></script>
+    <script src="js/Player.js"></script>
     <script src="vendor/OrbitControls.js"></script>
     <script src="js/functions.js"></script>
-    <script src="js/client.js"></script>
-    <script src="js/server/Player.js"></script>
+    <script src="js/client.js"></script>    
     <script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
@@ -57,6 +57,13 @@ if (div)
 
 }
 
+function playerReady(playerName, status){
+  var div = document.getElementById(playerName+'stat');
+  div.innerHTML = "";
+  div.innerHTML = status;
+
+}
+
 function injectPlayer(name, color, status){
 
   var main = document.getElementById("tableMain")
@@ -80,6 +87,7 @@ function injectPlayer(name, color, status){
     tdColor.style.width='27%';
 
   var tdStatus=document.createElement('td');
+    tdStatus.id = name.toString()+'stat';
     tdStatus.innerHTML =status;
     tdStatus.style.textAlign="center"
 

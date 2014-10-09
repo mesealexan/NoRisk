@@ -96,10 +96,11 @@ function start(route, handle) {
 				totalConnected: totalConnected,
 				playerCon: plr
 			};
-			socket.broadcast.emit('allPlayerConnections', pak);
+			socket.broadcast.emit('clientDisconnected', pak);
 			var dc = clientSockets.indexOf(socket);
 			var re = clients.indexOf(plr);
 			var cr = clientsInRoom.indexOf(plr);
+			console.log('client disconnected:'+plr.userName)
 			clients.splice(re,1);
 			clientsInRoom.splice(cr,1)
 			delete clientSockets[dc];

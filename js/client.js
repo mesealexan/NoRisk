@@ -1,6 +1,7 @@
 var thisClientId;
-//var Player = require("./Player.js")
+//var Player = require("./server/Player.js")
 var __player;
+var socket;
 
 function loginConnect()
 {
@@ -14,8 +15,9 @@ function loginConnect()
 			if (clienticonectati[i].userName)
 				injectPlayer(clienticonectati[i].userName, clienticonectati[i].userColor, 'todo status');
 		}
-		//var thisPlayer = new Player(data.uniqueID);
-		//__player = thisPlayer;
+		var thisPlayer = new Player(data.uniqueID);
+		__player = thisPlayer;
+		//console.log(__player.userId)
 		thisClientId = data.uniqueID;
 		/*
 		setInterval(function(){
@@ -42,6 +44,9 @@ function loginConnect()
 			userN: document.getElementById("pln").value, 
 			userC:document.getElementById("plc").value
 		}
+		__player.userName = document.getElementById("pln").value;
+		__player.userColor = document.getElementById("plc").value;
+
 		socket.emit('userDetails', paket);
 	});
 
@@ -56,4 +61,18 @@ function loginConnect()
 		injectPlayer(connectedPlayer.userName, connectedPlayer.userColor, 'Not Ready')
 	});
 
+	socket.on('clientDisconnected', function (data){
+		//var connectedPlayer = new Player();
+		var dcdPlayer = data.playerCon;
+		//console.log('Number of connections received:'+data.totalConnected);
+		console.log('disconected player: '+dcdPlayer.userName);
+		//document.getElementById("conUsers").value = data.totalConnected;
+		removePlayer(dcdPlayer.userName);
+	});
 }
+
+function clickReady()
+{
+
+}
+
