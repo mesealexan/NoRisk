@@ -1,5 +1,5 @@
 var thisClientId;
-var Player = require("./Player.js")
+//var Player = require("./Player.js")
 var __player;
 
 function loginConnect()
@@ -48,8 +48,8 @@ function loginConnect()
 
 
 	socket.on('allPlayerConnections', function (data){
-		var connectedPlayer = new Player();
-		connectedPlayer = data.playerCon;
+		//var connectedPlayer = new Player();
+		var connectedPlayer = data.playerCon;
 		console.log('Number of connections received:'+data.totalConnected);
 		console.log('connected player: '+connectedPlayer.userColor);
 		//document.getElementById("conUsers").value = data.totalConnected;
