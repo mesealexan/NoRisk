@@ -11,6 +11,8 @@ var projector = new THREE.Projector(),
 
 var cameraLight;
 
+var regions = new THREE.Object3D();
+
 function initWorld()
     {
     scene = new THREE.Scene();
@@ -38,6 +40,7 @@ function initWorld()
 
     controls = new THREE.OrbitControls( camera, renderer.domElement ); 
     controls.target.set(0,0,0);
+    /*
     controls.noPan = true;
     controls.minDistance = 500;
     controls.maxDistance = 1160;
@@ -45,68 +48,11 @@ function initWorld()
     controls.noKeys = true;
     controls.rotateSpeed = 0.3;
     controls.zoomSpeed = 0.3;
-
-    jsonLoader.load("art/earth.js", loadEarth);
-
-  //  var myTexture = new THREE.ImageUtils.loadTexture("art/Earth_Disp.jpg");
-/*
-    var ambient = 0x111111, diffuse = 0xbbbbbb, specular = 0x060606, shininess = 60;
-    var shader = THREE.ShaderLib[ "normalmap" ];
-
-    jsonLoader.load("art/africa.js", loadRayObjects);
-
-    scene.add(collector);
-    DisplacementTexture = new THREE.ImageUtils.loadCompressedTexture( 'art/Earth_Disp.dds' );
-    var DiffuseTexture = new THREE.ImageUtils.loadCompressedTexture("art/EARTH.dds");
-    var NormalTexture = new THREE.ImageUtils.loadCompressedTexture("art/earth_normal.dds")
-
-    var uniforms = THREE.UniformsUtils.clone( shader.uniforms );
-    uniforms[ "enableDisplacement" ].value = true;
-    uniforms[ "enableDiffuse" ].value = true;
-    uniforms[ "tDisplacement"].value = DisplacementTexture;
-    uniforms[ "tDiffuse" ].value = DiffuseTexture;
-    uniforms[ "tNormal" ].value = NormalTexture;
-    uniforms[ "uNormalScale" ].value.y = 2;
-    uniforms[ "uDisplacementScale" ].value = 8;
-    var parameters = { fragmentShader: shader.fragmentShader, vertexShader: shader.vertexShader, uniforms: uniforms, lights: true, wireframe: false };
-    var NormalMaterial = new THREE.ShaderMaterial( parameters );
-    NormalMaterial.wrapAround = true;
-
-
-   // var material = new THREE.MeshPhongMaterial( {map: myTexture} );
-
-    //geometry = new THREE.SphereGeometry(150, 60, 60);
-    var geometry = [
-
-        [ new THREE.SphereGeometry(150, 150, 150), 200 ],
-        [  new THREE.SphereGeometry(150, 100, 100), 250 ],
-        [  new THREE.SphereGeometry(150, 50, 50), 300 ]
-    ];
-
-    
-
-    var i, j, mesh;
-    lod = new THREE.LOD();
-
-    for ( i = 0; i < geometry.length; i ++ ) {
-        geometry[i][0].computeTangents();
-        mesh = new THREE.Mesh( geometry[ i ][ 0 ], NormalMaterial );
-        mesh.updateMatrix();
-        mesh.matrixAutoUpdate = false;
-        lod.addLevel( mesh, geometry[ i ][ 1 ] );
-
-    }
-
-
-    lod.updateMatrix();
-    lod.matrixAutoUpdate = false;
-    scene.add( lod );
-
 */
+    jsonLoader.load("art/earth.js", loadEarth);
+    jsonLoader.load("art/madagascar.js", loadRegions);  
 
-
-
-
+    scene.add(regions)
     cameraLight = new THREE.PointLight( 0xfffff3, 1.16, 5900 );
     cameraLight.position.set( camera.position );
     scene.add( cameraLight );
@@ -160,7 +106,20 @@ function loadEarth( geometry, materials )
     scene.add( mesh ); 
     }  
 
-
+function loadRegions( geometry, materials ) 
+    {   
+    var material = new THREE.MeshLambertMaterial( {
+                    color: 0xff0000,
+                    ambient: 0xaaaaaa,
+                    specular: 0xfffff2,
+                    opacity: 0.0,
+                    transparent: true
+                } ); 
+    geometry.computeFaceNormals();
+    geometry.computeVertexNormals();
+    var mesh = new THREE.Mesh( geometry, material); 
+    regions.add( mesh ); 
+    }  
 
 
 function onMouseMove( event_info ) 
@@ -172,17 +131,17 @@ function onMouseMove( event_info )
     projector.unprojectVector( mouse_vector, camera );
     var direction = mouse_vector.sub( camera.position ).normalize();
     ray.set( camera.position, direction );
-    intersects = ray.intersectObjects(collector.children, true );
+    intersects = ray.intersectObjects(regions.children, true );
     if(intersects.length>0)
         {   
             var intersected = intersects[0].object;
-            intersected.material.materials[0].opacity = 0.75;
+            intersected.material.opacity = 0.75;
         }
     else
     {
-        for(i=0; i<collector.children.length;i++)
+        for(i=0; i<regions.children.length;i++)
         {
-            collector.children[i].material.materials[0].opacity = 0;
+            regions.children[i].material.opacity = 0;
         }
     }
 }
