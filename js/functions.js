@@ -9,15 +9,17 @@ var projector = new THREE.Projector(),
     mouse = { x: 0, y: 0, z: 1 },
     ray = new THREE.Raycaster( new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0) );
 
+var cameraLight;
+
 function initWorld()
     {
     scene = new THREE.Scene();
 
     var SCREEN_WIDTH = window.innerWidth; 
     var SCREEN_HEIGHT = window.innerHeight; 
-    var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 10, FAR = 6600;
+    var VIEW_ANGLE = 15, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 10, FAR = 6600;
     camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR); 
-    camera.position.set(-200,200,200); 
+    camera.position.set(-500,500,500); 
     camera.lookAt(scene.position);   
     scene.add(camera); 
     collector = new THREE.Object3D();
@@ -35,9 +37,19 @@ function initWorld()
     container.appendChild( renderer.domElement ); 
 
     controls = new THREE.OrbitControls( camera, renderer.domElement ); 
+    controls.target.set(0,0,0);
+    controls.noPan = true;
+    controls.minDistance = 500;
+    controls.maxDistance = 900;
+    //controls.noZoom = true;
+    controls.noKeys = true;
+    controls.rotateSpeed = 0.3;
+    controls.zoomSpeed = 0.3;
+
+    jsonLoader.load("art/earth.js", loadEarth);
 
   //  var myTexture = new THREE.ImageUtils.loadTexture("art/Earth_Disp.jpg");
-
+/*
     var ambient = 0x111111, diffuse = 0xbbbbbb, specular = 0x060606, shininess = 60;
     var shader = THREE.ShaderLib[ "normalmap" ];
 
@@ -90,16 +102,16 @@ function initWorld()
     lod.matrixAutoUpdate = false;
     scene.add( lod );
 
+*/
 
 
 
 
+    cameraLight = new THREE.PointLight( 0xfffff3, 1.16, 5900 );
+    cameraLight.position.set( camera.position );
+    scene.add( cameraLight );
 
-
-    var dirLight = new THREE.DirectionalLight(0xffffff, 1);
-    dirLight.position.set(100, 100, 50);
-    scene.add(dirLight);
-animate();
+    animate();
 
     }
 
@@ -107,6 +119,7 @@ function animate()
     {
     requestAnimationFrame( animate ); 
     scene.updateMatrixWorld();
+    /*
     scene.traverse( function ( object ) {
 
         if ( object instanceof THREE.LOD ) {
@@ -117,23 +130,34 @@ function animate()
 
     } );
     lod.children[0].rotation.y += 0.001; 
-    renderer.render( scene, camera );   
+    */
+    renderer.render( scene, camera );  
+    cameraLight.position.copy( camera.position );
     controls.update(); 
     update();
     }
 
 function update(){
 }
-function loadRayObjects( geometry, materials ) 
+function loadEarth( geometry, materials ) 
     {   
-    var material = new THREE.MeshFaceMaterial( materials ); 
-    material.materials[0].opacity = 0;
-    material.materials[0].transparent= true;
+
+    var DiffuseTexture = new THREE.ImageUtils.loadCompressedTexture("art/EARTH2.dds");
+    var NormalTexture = new THREE.ImageUtils.loadCompressedTexture("art/earth_normal.dds");
+    var SpecularTexture = new THREE.ImageUtils.loadCompressedTexture("art/Earth_Spec.dds")
+    var ambient = 0x050500, diffuse = 0x141F1F, specular = 0x2E2E1F, shininess =50, scale = 23;
+
+    var material = new THREE.MeshPhongMaterial( {
+                    map: DiffuseTexture,
+                    specularMap: SpecularTexture,
+                    ambient: ambient,
+                    normalMap: NormalTexture,
+                    shininess: shininess
+                } ); 
     geometry.computeFaceNormals();
     geometry.computeVertexNormals();
     mesh = new THREE.Mesh( geometry, material); 
-
-    collector.add( mesh ); 
+    scene.add( mesh ); 
     }  
 
 
