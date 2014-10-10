@@ -20,7 +20,7 @@
       <form > <br>
           Name: <input type="text" name="name" id="pln">             
           Color: <input type="color" name='playerCol' id="plc">
-          <input type="button" value="Submit" onclick="enableReady()" >
+          <input type="button" id="submitButton" value="Submit" onclick="enableReady()" >
       </form>
 
       <div id="tableMain">
@@ -47,6 +47,7 @@ var counter = 0;
 
 function enableReady(){
   document.getElementById("readyButton").disabled = false;
+  document.getElementById("submitButton").disabled = true;
   loginConnect();
 }
 
