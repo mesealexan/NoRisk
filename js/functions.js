@@ -35,6 +35,7 @@ function initWorld()
     //renderer.setClearColorHex( 0x000000, 1 );
 
     renderer.domElement.addEventListener( 'mousemove', onMouseMove, false );
+    renderer.domElement.addEventListener( 'mousedown', onMouseDown, false );
     container = document.getElementById( 'ThreeJS' ); 
     container.appendChild( renderer.domElement ); 
 
@@ -87,7 +88,7 @@ function update(){
 }
 function loadEarth( geometry, materials ) 
     {   
-
+/*
     var DiffuseTexture = new THREE.ImageUtils.loadCompressedTexture("art/EARTH2.dds");
     var NormalTexture = new THREE.ImageUtils.loadCompressedTexture("art/earth_normal.dds");
     var SpecularTexture = new THREE.ImageUtils.loadCompressedTexture("art/Earth_Spec.dds")
@@ -100,6 +101,8 @@ function loadEarth( geometry, materials )
                     normalMap: NormalTexture,
                     shininess: shininess
                 } ); 
+    */
+    var material = new THREE.MeshFaceMaterial( materials );
     geometry.computeFaceNormals();
     geometry.computeVertexNormals();
     mesh = new THREE.Mesh( geometry, material); 
@@ -144,4 +147,22 @@ function onMouseMove( event_info )
             regions.children[i].material.opacity = 0;
         }
     }
+}
+function onMouseDown( event_info ) 
+{
+    event_info.preventDefault();  
+    mouse.x = ( event_info.clientX / (window.innerWidth) ) * 2 - 1;
+    mouse.y = - ( event_info.clientY / window.innerHeight ) * 2 + 1;   
+    mouse_vector.set( mouse.x, mouse.y, mouse.z );
+    projector.unprojectVector( mouse_vector, camera );
+    var direction = mouse_vector.sub( camera.position ).normalize();
+    ray.set( camera.position, direction );
+    intersects = ray.intersectObjects(scene.children, true );
+    if(intersects.length>0)
+        {   
+            console.log(intersects[0].face.materialIndex);
+            if(intersects[0].face.materialIndex>0){
+            intersects[0].object.material.materials[intersects[0].face.materialIndex].emissive = new THREE.Color( 0xff0000 );
+        }
+        }
 }
