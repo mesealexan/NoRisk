@@ -24,6 +24,12 @@ body {
     position: fixed;
     z-index: 1;
 }
+#stats{
+    z-index: 500;
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+}
 
 #login {
 	display: block;

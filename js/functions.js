@@ -10,9 +10,9 @@ var projector = new THREE.Projector(),
     ray = new THREE.Raycaster( new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0) );
 
 var cameraLight;
-
+var rendererStats  = new THREEx.RendererStats()
 var regions = new THREE.Object3D();
-
+var stats;
 function initWorld()
     {
     scene = new THREE.Scene();
@@ -30,7 +30,7 @@ function initWorld()
         renderer = new THREE.WebGLRenderer({antialias:true, alpha: true });
     else
         renderer = new THREE.CanvasRenderer({antialias:true, alpha: true });
-
+    
     renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT); 
     //renderer.setClearColorHex( 0x000000, 1 );
 
@@ -38,6 +38,13 @@ function initWorld()
     renderer.domElement.addEventListener( 'mousedown', onMouseDown, false );
     container = document.getElementById( 'ThreeJS' ); 
     container.appendChild( renderer.domElement ); 
+
+    document.getElementById('stats').appendChild( rendererStats.domElement )
+
+    stats = new Stats();
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.top = '-50px';
+    document.getElementById('stats').appendChild( stats.domElement );
 
     controls = new THREE.OrbitControls( camera, renderer.domElement ); 
     controls.target.set(0,0,0);
@@ -78,8 +85,10 @@ function animate()
     } );
     lod.children[0].rotation.y += 0.001; 
     */
+stats.update();
     renderer.render( scene, camera );  
     cameraLight.position.copy( camera.position );
+    rendererStats.update(renderer);
     controls.update(); 
     update();
     }
