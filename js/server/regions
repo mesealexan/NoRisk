@@ -1,0 +1,79 @@
+{
+    "world": [
+        {
+            "countryId": 1,
+            "countryName" : "Alaska"
+            "meshId": 1,
+            "units": 0,
+            "regen": 1,
+            "neighbours": [2, 3, x],
+            "continentId": 0,
+            "user": undefined,
+        },
+        {
+            "countryId": 2,
+            "countryName" : "Canada"
+            "meshId": 2,
+            "units": 0,
+            "regen": 6,
+            "neighbours": [1, 3, 4, x],
+            "continentId": 0,
+            "user": "NaN",
+        },
+        {
+            "countryId": 3,
+            "countryName" : "West Coast"
+            "meshId": 3,
+            "units": 0,
+            "regen": 2,
+            "neighbours": [1, 2, 4, 6],
+            "continentId": 0,
+            "user": "NaN",
+        },
+        {
+            "countryId": 4,
+            "countryName" : "East Coast"
+            "meshId": 4,
+            "units": 0,
+            "regen": 7,
+            "neighbours": [2, 3, 5, x],
+            "continentId": 0,
+            "user": "NaN",
+        },
+        {
+            "countryId": 5,
+            "countryName" : "South West Coast"
+            "meshId": 5,
+            "units": 0,
+            "regen": 9,
+            "neighbours": [2, 3, 5, x],
+            "continentId": 0,
+            "user": "NaN",
+        },
+        {
+            "counter_name": "sdg",
+            "counter_type": "dfg",
+            "counter_unit": "gfgd"
+        },
+        {
+            "counter_name": "dfgd",
+            "counter_type": "fgf",
+            "counter_unit": "liggtggggri     "
+        },
+        {
+            "counter_name": "fgd",
+            "counter_type": "dfg",
+            "counter_unit": "kwfgf       "
+        },
+        {
+            "counter_name": "dfg",
+            "counter_type": "dfg",
+            "counter_unit": "dg"
+        },
+        {
+            "counter_name": "gd",
+            "counter_type": "dfg",
+            "counter_unit": "dfg"
+        }
+    ]
+}
