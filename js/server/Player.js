@@ -6,6 +6,17 @@ function Player(usrId)
 	//this.userColor = usrColor;
 	this.userMap = [];
 	this.userId = usrId;
+	this.userStatus = 'Not ready';
+}
+
+Player.prototype.setStatus = function(status)
+{
+	this.userStatus = status;
+}
+
+Player.prototype.getStatus = function()
+{
+	return this.userStatus;
 }
 
 Player.prototype.setName = function(name)

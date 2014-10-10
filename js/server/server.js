@@ -112,13 +112,22 @@ function start(route, handle) {
 			var pl = clients.indexOf(plr);
 			plr.setName(data.userN);
 			plr.setColor(data.userC);
-			console.log('username arrived: '+plr.getName())
+			//console.log('username arrived: '+plr.getName())
 
 			pak = {
 				totalConnected: totalConnected,
 				playerCon: plr
 			};
 			iol.sockets.emit('allPlayerConnections', pak);
+		});
+
+		socket.on('userStatusChange', function(data){
+			plr.setStatus(data.newStatus);
+			pak = {
+				playerName: plr.getName(),
+				playerStatus: plr.getStatus()
+			}
+			socket.broadcast.emit('statusChanged', pak);
 		});
 		/*
 		socket.on('position', function (data){

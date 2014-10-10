@@ -2,6 +2,7 @@ var thisClientId;
 //var Player = require("./server/Player.js")
 var __player;
 var socket;
+var plStatus = false;
 
 function loginConnect()
 {
@@ -13,7 +14,7 @@ function loginConnect()
 		for (var i=0;i<clienticonectati.length;i++)
 		{
 			if (clienticonectati[i].userName)
-				injectPlayer(clienticonectati[i].userName, clienticonectati[i].userColor, 'todo status');
+				injectPlayer(clienticonectati[i].userName, clienticonectati[i].userColor, clienticonectati[i].userStatus);
 		}
 		var thisPlayer = new Player(data.uniqueID);
 		__player = thisPlayer;
@@ -46,6 +47,7 @@ function loginConnect()
 		}
 		__player.userName = document.getElementById("pln").value;
 		__player.userColor = document.getElementById("plc").value;
+		__player.userStatus = 'Not ready';
 
 		socket.emit('userDetails', paket);
 	});
@@ -69,10 +71,23 @@ function loginConnect()
 		//document.getElementById("conUsers").value = data.totalConnected;
 		removePlayer(dcdPlayer.userName);
 	});
+
+	socket.on('statusChanged', function (data){
+		playerReady(data.playerName, data.playerStatus);
+	});
 }
 
 function clickReady()
 {
+	plStatus = !plStatus;
+	var sendStatus = (plStatus == true ? "Ready" : "Not ready");
+	__player.userStatus = sendStatus;
+	playerReady(__player.userName, sendStatus);
 
+	var paket = {
+		playerName: __player.userName,
+		newStatus: __player.userStatus
+	}
+	socket.emit('userStatusChange', paket)
 }
 
